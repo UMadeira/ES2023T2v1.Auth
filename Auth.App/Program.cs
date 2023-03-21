@@ -1,6 +1,5 @@
 ﻿using Auth.Data;
 using Auth.Data.Classes;
-using Auth.Data.InMemory;
 using Autofac;
 
 namespace Auth.App
@@ -16,13 +15,18 @@ namespace Auth.App
             Console.WriteLine("Hello, World!");
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<Factory>().SingleInstance();
+            builder.RegisterType<Factory>()
+                .UsingConstructor(new DefaultConstructorSelector())
+                .SingleInstance();
             Container = builder.Build();
 
-            UnitOfWork = new UnitOfWork();
+            var user = Container.Resolve<Factory>().Create<User>();
 
-            CreateModel();
-            ShowModel();
+
+            //UnitOfWork = new UnitOfWork();
+
+            //CreateModel();
+            //ShowModel();
         }
 
         static void CreateModel()
