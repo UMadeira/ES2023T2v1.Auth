@@ -1,6 +1,6 @@
 ﻿using Auth.Data;
 using Auth.Data.Classes;
-using Auth.Data.InMemory;
+using Auth.Data.EntityFramework;
 using Autofac;
 
 namespace Auth.App
@@ -44,6 +44,13 @@ namespace Auth.App
             user2.Groups.Add(group);
             group.Users.Add(user2);
             unitOfWork.GetRepository<User>().Insert(user2);
+
+            User? user3 = unitOfWork.GetRepository<User>().Create( "tester3", "***", "tester3@mail.pt" );
+            user3.Groups.Add(group);
+            group.Users.Add(user3);
+            unitOfWork.GetRepository<User>().Insert(user3);
+
+            unitOfWork.SaveChanges();
         }
 
         static void ShowModel()

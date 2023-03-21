@@ -16,12 +16,12 @@ namespace Auth.Data
 
         private static IList<Type> Constructs { get; set; } = new List<Type>();
 
-        public T? Create<T>() 
+        public T? Create<T>( params object?[]? args ) 
         {
             var type = typeof( T );
 
             if ( ! Constructs.Contains( type ) ) return Cast<T>(null);
-            return Cast<T>( Activator.CreateInstance( type, null ) );
+            return Cast<T>( Activator.CreateInstance( type, args ) );
         }
 
         public static T? Cast<T>(object? obj)

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Auth.Data.EntityFramework\Auth.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Auth.Data.InMemory\Auth.Data.InMemory.csproj" />
     <ProjectReference Include="..\Auth.Data\Auth.Data.csproj" />
   </ItemGroup>

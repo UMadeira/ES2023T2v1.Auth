@@ -14,9 +14,9 @@ namespace Auth.Data.InMemory
         public IEnumerable<TEntity> GetAll() => UnitOfWork.Items.OfType<TEntity>();
 
 
-        public TEntity Create()
+        public TEntity Create( params object?[]? args )
         {
-            return UnitOfWork.Factory.Create<TEntity>();
+            return UnitOfWork.Factory.Create<TEntity>( args );
         }
 
         public void Insert(TEntity item)

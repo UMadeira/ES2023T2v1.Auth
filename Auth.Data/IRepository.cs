@@ -7,7 +7,7 @@ namespace Auth.Data
 
         IEnumerable<TEntity> GetAll();
 
-        TEntity Create();
+        TEntity Create( params object?[]? args );
 
         void Insert( TEntity item );
         void Update( TEntity item );

@@ -23,8 +23,8 @@ namespace Auth.Data.EntityFramework
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new UserConfig());
-            //modelBuilder.ApplyConfiguration(new GroupConfig());
-            //modelBuilder.ApplyConfiguration(new PermissionConfig());
+            modelBuilder.ApplyConfiguration(new GroupConfig());
+            modelBuilder.ApplyConfiguration(new PermissionConfig());
         }
     }
 }
