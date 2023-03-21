@@ -7,7 +7,6 @@ namespace Auth.Data
         public Factory()
             : this( typeof(User), typeof(Group), typeof(Permission) )
         {
-            Console.WriteLine("Factory()");
         }
 
         public Factory( params Type[] types ) 

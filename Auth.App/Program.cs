@@ -1,5 +1,6 @@
 ﻿using Auth.Data;
 using Auth.Data.Classes;
+using Auth.Data.InMemory;
 using Autofac;
 
 namespace Auth.App
@@ -15,43 +16,44 @@ namespace Auth.App
             Console.WriteLine("Hello, World!");
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<Factory>()
+            builder.RegisterType<UnitOfWork>()
                 .UsingConstructor(new DefaultConstructorSelector())
+                .As<IUnitOfWork>()
                 .SingleInstance();
             Container = builder.Build();
 
-            var user = Container.Resolve<Factory>().Create<User>();
 
-
-            //UnitOfWork = new UnitOfWork();
-
-            //CreateModel();
-            //ShowModel();
+            CreateModel();
+            ShowModel();
         }
 
         static void CreateModel()
         {
-            Group group = UnitOfWork.GetRepository<Group>().Create();
+            var unitOfWork = Container.Resolve<IUnitOfWork>();
+
+            Group group = unitOfWork.GetRepository<Group>().Create();
             group.Name = "Administrators";
             group.Description = "Admin Groups";
-            UnitOfWork.GetRepository<Group>().Insert(group);
+            unitOfWork.GetRepository<Group>().Insert(group);
 
-            User? user1 = UnitOfWork.GetRepository<User>().Create();
+            User? user1 = unitOfWork.GetRepository<User>().Create();
             user1.Username = "tester1";
             user1.Groups.Add( group );
             group.Users.Add( user1 );
-            UnitOfWork.GetRepository<User>().Insert(user1);
+            unitOfWork.GetRepository<User>().Insert(user1);
 
-            User? user2 = UnitOfWork.GetRepository<User>().Create();
+            User? user2 = unitOfWork.GetRepository<User>().Create();
             user2.Username = "tester2";
             user2.Groups.Add(group);
             group.Users.Add(user2);
-            UnitOfWork.GetRepository<User>().Insert(user2);
+            unitOfWork.GetRepository<User>().Insert(user2);
         }
 
         static void ShowModel()
         {
-            foreach( var group in UnitOfWork.GetRepository<Group>().GetAll() )
+            var unitOfWork = Container.Resolve<IUnitOfWork>();
+
+            foreach ( var group in unitOfWork.GetRepository<Group>().GetAll() )
             {
                 Console.WriteLine($"Group: {group.Name}");
                 foreach( var user in group.Users ) 
@@ -60,7 +62,7 @@ namespace Auth.App
                 }
             }
 
-            foreach ( var user in UnitOfWork.GetRepository<User>().GetAll() )
+            foreach ( var user in unitOfWork.GetRepository<User>().GetAll() )
             {
                 Console.Write($"User: {user.Username}, ");
                 Console.WriteLine( $"Groups: { string.Join( ",", user.Groups.Select( e => e.Name ) ) }");
