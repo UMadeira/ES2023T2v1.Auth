@@ -9,8 +9,6 @@ namespace Auth.App
     {
         static IContainer Container { get; set; }
 
-        static IUnitOfWork UnitOfWork { get; set; }
-
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
@@ -21,7 +19,6 @@ namespace Auth.App
                 .As<IUnitOfWork>()
                 .SingleInstance();
             Container = builder.Build();
-
 
             CreateModel();
             ShowModel();
